@@ -9,7 +9,7 @@ import org.hibernate.cfg.Configuration;
 
 import iryna.bozhyk.hibernate.entity.Employee;
 
-public class EmployeerController {
+public class AddEmployeerController {
 
 	
 	public static void main (String [] args) {
@@ -23,9 +23,18 @@ public class EmployeerController {
 									.configure("hibernate.cfg.xml")
 									.addAnnotatedClass(Employee.class)
 									.buildSessionFactory();
-		
-		try (Session session = factory.getCurrentSession()){
-			
+		for(int i = 0; i<emps.size(); i++) {
+			Session session =null;
+			try {
+				session = factory.getCurrentSession();
+				session.beginTransaction();
+				session.save(emps.get(i));
+				session.getTransaction().commit();
+			}finally{
+				if (session!=null) {
+					session.close();
+				}
+			}
 		
 				
 		}
